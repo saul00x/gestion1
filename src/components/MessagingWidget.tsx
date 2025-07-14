@@ -65,15 +65,15 @@ export const MessagingWidget: React.FC = () => {
 
 
       if (user?.role === 'admin') {
-        // Admin peut parler avec tout le monde (employés et managers)
-        setUsers(filteredUsers.filter((u: any) => u.role === 'employe' || u.role === 'manager'));
+        // Admin peut parler avec tout le monde
+        setUsers(filteredUsers);
       } else if (user?.role === 'manager') {
         // Manager peut parler avec les employés de son magasin seulement
         setUsers(filteredUsers.filter((u: any) => 
           u.role === 'employe' && u.magasin_id === user.magasin_id
         ));
       } else {
-        // Employé peut parler avec son manager seulement
+        // Employé peut parler avec les managers de son magasin seulement
         setUsers(filteredUsers.filter((u: any) => 
           u.role === 'manager' && u.magasin_id === user.magasin_id
         ));

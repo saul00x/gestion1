@@ -25,14 +25,8 @@ export const ManagerFournisseursPage: React.FC = () => {
   const fetchFournisseurs = async () => {
     try {
       const data = await suppliersService.getSuppliers();
-      const normalizedData = normalizeApiResponse(data);
-      
-      // Filtrer les fournisseurs qui appartiennent au magasin du manager
-      const fournisseursDuMagasin = normalizedData.filter((fournisseur: any) => 
-        fournisseur.magasin_id?.toString() === user?.magasin_id?.toString()
-      );
-      
-      setFournisseurs(fournisseursDuMagasin.map((item: any) => ({
+      const normalizedData = normalizeApiResponse(data);      
+      setFournisseurs(normalizedData.map((item: any) => ({
         ...item,
         createdAt: new Date(item.created_at)
       })));

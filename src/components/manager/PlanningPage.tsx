@@ -95,11 +95,17 @@ export const PlanningPage: React.FC = () => {
     try {
       console.log('Chargement des plannings pour la semaine:', selectedWeek);
       
-      // Plannings vides - à implémenter avec une vraie API
-      const mockPlannings: Planning[] = [];
+      // Filtrer les plannings pour la semaine sélectionnée
+      const weekStart = new Date(selectedWeek);
+      const weekEnd = new Date(weekStart);
+      weekEnd.setDate(weekStart.getDate() + 6);
       
-      console.log('Plannings créés:', mockPlannings);
-      setPlannings(mockPlannings);
+      const filteredPlannings = plannings.filter(planning => {
+        const planningDate = planning.date;
+        return planningDate >= weekStart && planningDate <= weekEnd;
+      });
+      
+      console.log('Plannings filtrés:', filteredPlannings);
     } catch (error) {
       console.error('Erreur lors du chargement des plannings:', error);
       toast.error('Erreur lors du chargement des plannings');

@@ -33,14 +33,8 @@ export const ManagerProduitsPage: React.FC = () => {
   const fetchProduits = async () => {
     try {
       const data = await productsService.getProducts();
-      const normalizedData = normalizeApiResponse(data);
-      
-      // Filtrer les produits qui appartiennent au magasin du manager
-      const produitsDuMagasin = normalizedData.filter((produit: any) => 
-        produit.magasin_id?.toString() === user?.magasin_id?.toString()
-      );
-      
-      setProduits(produitsDuMagasin.map((item: any) => ({
+      const normalizedData = normalizeApiResponse(data);      
+      setProduits(normalizedData.map((item: any) => ({
         ...item,
         createdAt: new Date(item.created_at)
       })));
