@@ -1,5 +1,6 @@
 from django.db import models
 from suppliers.models import Fournisseur
+from stores.models import Magasin
 
 class Produit(models.Model):
     nom = models.CharField(max_length=200)
@@ -8,6 +9,7 @@ class Produit(models.Model):
     prix_unitaire = models.DecimalField(max_digits=10, decimal_places=2)
     seuil_alerte = models.IntegerField(default=0)
     fournisseur = models.ForeignKey(Fournisseur, on_delete=models.SET_NULL, null=True, blank=True)
+    magasin = models.ForeignKey(Magasin, on_delete=models.CASCADE, null=True, blank=True)
     image = models.ImageField(upload_to='produits/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     
@@ -23,6 +25,10 @@ class Produit(models.Model):
     @property
     def fournisseur_id(self):
         return self.fournisseur.id if self.fournisseur else None
+    
+    @property
+    def magasin_id(self):
+        return self.magasin.id if self.magasin else None
     
     class Meta:
         verbose_name = 'Produit'

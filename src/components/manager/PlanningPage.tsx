@@ -95,28 +95,8 @@ export const PlanningPage: React.FC = () => {
     try {
       console.log('Chargement des plannings pour la semaine:', selectedWeek);
       
-      // Créer des plannings de démonstration basés sur les vrais utilisateurs
-      const mockPlannings: Planning[] = users.length > 0 ? [
-        {
-          id: '1',
-          user_id: users[0].id,
-          date: new Date(selectedWeek),
-          heure_debut: '09:00',
-          heure_fin: '17:00',
-          tache: 'Gestion du stock',
-          notes: 'Inventaire des produits'
-        },
-        // Ajouter plus de plannings si il y a plus d'utilisateurs
-        ...(users.length > 1 ? [{
-          id: '2',
-          user_id: users[1].id,
-          date: new Date(new Date(selectedWeek).getTime() + 24 * 60 * 60 * 1000), // Jour suivant
-          heure_debut: '08:00',
-          heure_fin: '16:00',
-          tache: 'Accueil client',
-          notes: 'Service client'
-        }] : [])
-      ] : [];
+      // Plannings vides - à implémenter avec une vraie API
+      const mockPlannings: Planning[] = [];
       
       console.log('Plannings créés:', mockPlannings);
       setPlannings(mockPlannings);

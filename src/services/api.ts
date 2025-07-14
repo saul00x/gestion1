@@ -169,6 +169,10 @@ export const productsService = {
       formData.append('fournisseur', productData.fournisseur);
     }
     
+    if (productData.magasin) {
+      formData.append('magasin', productData.magasin);
+    }
+    
     if (productData.image) {
       formData.append('image', productData.image);
     }
@@ -199,6 +203,10 @@ export const productsService = {
     
     if (productData.fournisseur) {
       formData.append('fournisseur', productData.fournisseur);
+    }
+    
+    if (productData.magasin) {
+      formData.append('magasin', productData.magasin);
     }
     
     if (productData.image) {
@@ -317,6 +325,10 @@ export const suppliersService = {
     formData.append('adresse', supplierData.adresse);
     formData.append('contact', supplierData.contact);
     
+    if (supplierData.magasin) {
+      formData.append('magasin', supplierData.magasin);
+    }
+    
     if (supplierData.image) {
       formData.append('image', supplierData.image);
     }
@@ -342,6 +354,10 @@ export const suppliersService = {
     formData.append('nom', supplierData.nom);
     formData.append('adresse', supplierData.adresse);
     formData.append('contact', supplierData.contact);
+    
+    if (supplierData.magasin) {
+      formData.append('magasin', supplierData.magasin);
+    }
     
     if (supplierData.image) {
       formData.append('image', supplierData.image);

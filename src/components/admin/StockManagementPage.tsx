@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { Package, AlertTriangle, Eye } from 'lucide-react';
+import { Package, AlertTriangle, Edit, Trash2 } from 'lucide-react';
 import { stockService, productsService, storesService } from '../../services/api';
 import { Stock, Produit, Magasin } from '../../types';
 import { safeNumber, formatNumber } from '../../utils/numbers';
@@ -154,11 +154,7 @@ export const StockManagementPage: React.FC = () => {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Consultation des Stocks</h1>
-          <p className="text-gray-600 mt-1">Vue d'ensemble des stocks de tous vos magasins (lecture seule)</p>
-        </div>
-        <div className="flex items-center space-x-2 text-blue-600">
-          <Eye className="h-5 w-5" />
-          <span className="text-sm font-medium">Mode lecture seule</span>
+          <p className="text-gray-600 mt-1">Vue d'ensemble des stocks de tous vos magasins</p>
         </div>
       </div>
 
@@ -209,6 +205,9 @@ export const StockManagementPage: React.FC = () => {
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Dernière MAJ
+                </th>
+                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Actions
                 </th>
               </tr>
             </thead>
@@ -264,6 +263,16 @@ export const StockManagementPage: React.FC = () => {
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {stock.updatedAt.toLocaleDateString('fr-FR')}
                     </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <div className="flex justify-end space-x-2">
+                        <button className="text-blue-600 hover:text-blue-900 transition-colors duration-200">
+                          <Edit className="h-4 w-4" />
+                        </button>
+                        <button className="text-red-600 hover:text-red-900 transition-colors duration-200">
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
+                    </td>
                   </tr>
                 );
               })}
@@ -281,19 +290,6 @@ export const StockManagementPage: React.FC = () => {
           </p>
         </div>
       )}
-
-      {/* Info */}
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-        <div className="flex items-center">
-          <Eye className="h-6 w-6 text-blue-600 mr-3" />
-          <div>
-            <h3 className="text-lg font-medium text-blue-800">Mode consultation</h3>
-            <p className="text-blue-600 mt-1">
-              Vous consultez les stocks en mode lecture seule. La gestion des stocks est déléguée aux managers de chaque magasin.
-            </p>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };

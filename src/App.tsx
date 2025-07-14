@@ -101,10 +101,12 @@ function App() {
               user ? (
                 user.role === 'admin' ? (
                   <Navigate to="/admin/dashboard" replace />
-                ) : user.role === 'manager' ? (
-                  <Navigate to="/manager/dashboard" replace />
                 ) : (
-                  <Navigate to="/employe/dashboard" replace />
+                  user.role === 'manager' ? (
+                    <Navigate to="/manager/dashboard" replace />
+                  ) : (
+                    <Navigate to="/employe/dashboard" replace />
+                  )
                 )
               ) : (
                 <Navigate to="/login" replace />

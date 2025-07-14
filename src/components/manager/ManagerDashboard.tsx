@@ -9,6 +9,7 @@ import { safeNumber } from '../../utils/numbers';
 
 export const ManagerDashboard: React.FC = () => {
   const { user } = useAuth();
+  const [magasinNom, setMagasinNom] = useState<string>('');
   const [stats, setStats] = useState({
     totalProduits: 0,
     totalEmployes: 0,
@@ -35,12 +36,19 @@ export const ManagerDashboard: React.FC = () => {
       const results = await Promise.allSettled([
         productsService.getProducts(),
         authService.getUsers(),
-        stockService.getStocks()
+        stockService.getStocks(),
+        storesService.getStores()
       ]);
 
       const produitsResponse = results[0].status === 'fulfilled' ? results[0].value : [];
       const utilisateursResponse = results[1].status === 'fulfilled' ? results[1].value : [];
       const stocksResponse = results[2].status === 'fulfilled' ? results[2].value : [];
+      const magasinsResponse = results[3].status === 'fulfilled' ? results[3].value : [];
+
+      // Récupérer le nom du magasin
+      const magasins = normalizeApiResponse(magasinsResponse || []);
+      const currentMagasin = magasins.find((m: any) => m.id.toString() === user.magasin_id?.toString());
+      setMagasinNom(currentMagasin?.nom || 'Magasin inconnu');
 
       const produits = normalizeApiResponse(produitsResponse || []).map((item: any) => ({
         ...item,
@@ -163,7 +171,10 @@ export const ManagerDashboard: React.FC = () => {
   return (
     <div className="space-y-8">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-gray-900">Dashboard Manager</h1>
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">Dashboard Manager</h1>
+          <p className="text-lg text-blue-600 font-medium mt-1">Magasin: {magasinNom}</p>
+        </div>
         <div className="text-sm text-gray-500">
           Dernière mise à jour: {new Date().toLocaleString('fr-FR')}
         </div>

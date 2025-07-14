@@ -32,23 +32,15 @@ export const ManagerProduitsPage: React.FC = () => {
 
   const fetchProduits = async () => {
     try {
-      // Récupérer tous les produits
       const data = await productsService.getProducts();
       const normalizedData = normalizeApiResponse(data);
       
-      // Récupérer les stocks pour filtrer les produits du magasin
-      const stocksData = await stockService.getStocks();
-      const stocks = normalizeApiResponse(stocksData);
+      // Filtrer les produits qui appartiennent au magasin du manager
+      const produitsDuMagasin = normalizedData.filter((produit: any) => 
+        produit.magasin_id?.toString() === user?.magasin_id?.toString()
+      );
       
-      // Filtrer les produits qui ont un stock dans le magasin du manager
-      const produitsAvecStock = normalizedData.filter((produit: any) => {
-        return stocks.some((stock: any) => 
-          stock.produit_id?.toString() === produit.id?.toString() &&
-          stock.magasin_id?.toString() === user?.magasin_id?.toString()
-        );
-      });
-      
-      setProduits(produitsAvecStock.map((item: any) => ({
+      setProduits(produitsDuMagasin.map((item: any) => ({
         ...item,
         createdAt: new Date(item.created_at)
       })));
@@ -85,6 +77,7 @@ export const ManagerProduitsPage: React.FC = () => {
         prix_unitaire: formData.prix_unitaire,
         seuil_alerte: formData.seuil_alerte,
         fournisseur: formData.fournisseur || null,
+        magasin: user?.magasin_id, // Assigner le magasin du manager
         image: formData.image
       };
 
@@ -92,15 +85,7 @@ export const ManagerProduitsPage: React.FC = () => {
         await productsService.updateProduct(editingProduit.id, produitData);
         toast.success('Produit modifié avec succès');
       } else {
-        const newProduit = await productsService.createProduct(produitData);
-        
-        // Créer automatiquement un stock pour ce produit dans le magasin du manager
-        await stockService.createStock({
-          produit: newProduit.id,
-          magasin: user?.magasin_id,
-          quantite: 0
-        });
-        
+        await productsService.createProduct(produitData);
         toast.success('Produit ajouté avec succès');
       }
 
